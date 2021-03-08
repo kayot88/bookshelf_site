@@ -94,6 +94,7 @@ export const CloseButton = styled.button`
   width: 40px;
   margin: 25px;
 `;
+
 export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
