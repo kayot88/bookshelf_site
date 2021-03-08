@@ -17,6 +17,7 @@ import {
 
 export const LoginFormContainer = () => {
   const [openModal, setOpenModal] = useState("none");
+
   const login = (formData) => {
     console.log("formData", formData);
   };
@@ -39,7 +40,14 @@ export const LoginFormContainer = () => {
       </LoginFormWrapper>
       <StyledDialog aria-label="Login form" isOpen={openModal === "login"}>
         <h1>Login form</h1>
-        <LoginForm textButton="Login" takeFormData={login} />
+        <LoginForm
+          submitButton={
+            <Button variant="primary" style={{ marginTop: "15px" }}>
+              Login
+            </Button>
+          }
+          takeFormData={login}
+        />
         <CloseButton onClick={() => setOpenModal("none")}>
           <span
             style={{
@@ -60,7 +68,14 @@ export const LoginFormContainer = () => {
         isOpen={openModal === "register"}
       >
         <h1>Register form</h1>
-        <LoginForm textButton="Register" takeFormData={register} />
+        <LoginForm
+          submitButton={
+            <Button variant="primary" style={{ marginTop: "15px" }}>
+              Register
+            </Button>
+          }
+          takeFormData={register}
+        />
         <CloseButton onClick={() => setOpenModal("none")} type="close">
           <span>x</span>
         </CloseButton>
