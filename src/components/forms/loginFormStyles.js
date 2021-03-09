@@ -1,8 +1,23 @@
-import styled from "styled-components/macro";
+import styled, { keyframes } from "styled-components/macro";
 import { Dialog as ReachDialog } from "@reach/dialog";
 import * as colors from "../../styles/colors";
 import * as mq from "../../styles/media-queries";
+import { FaSpinner } from "react-icons/fa";
 
+const spin = keyframes`
+0% {
+  transform: rotate(0deg);
+}
+100% {
+  transform: rotate(360deg);
+}
+`;
+export const Spinner = styled(FaSpinner)`
+  animation: ${spin} 1s linear infinite;
+`;
+Spinner.defaultProps = {
+  'aria-label': "loading",
+};
 const buttonVariants = {
   primary: {
     background: colors.indigo,
@@ -68,7 +83,6 @@ export const ButtonsWrapper = styled.div`
 `;
 export const StyledDialog = styled(ReachDialog)`
   position: relative;
-
   max-width: 450px;
   border-radius: 3px;
   padding-bottom: 3.5em;

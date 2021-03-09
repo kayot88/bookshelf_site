@@ -1,14 +1,13 @@
 import "@reach/dialog/styles.css";
-import React, { useContext } from "react";
+import React from "react";
+import { CircleButton, StyledDialog } from "../forms/loginFormStyles";
 import { ModalContext } from "./Modal";
 import { ModalDismissButton } from "./ModalDismissButton";
-import { Dialog } from "@reach/dialog";
-import { CircleButton } from "../forms/loginFormStyles";
 
 function ModalContentsBase(props) {
   const [isOpen, setIsOpen] = React.useContext(ModalContext);
   return (
-    <Dialog isOpen={isOpen} onDismiss={() => setIsOpen(false)} {...props} />
+    <StyledDialog isOpen={isOpen} onDismiss={() => setIsOpen(false)} {...props} />
   );
 }
 

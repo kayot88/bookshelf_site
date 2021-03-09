@@ -1,22 +1,19 @@
 import "@reach/dialog/styles.css";
-
 import React, { useState } from "react";
-import { Dialog } from "@reach/dialog";
-import { Logo } from "../svg/logo";
 import { LoginForm } from "../components/forms/loginForm";
 import {
   Button,
-  CircleButton,
-  FormGroup,
-  StyledDialog,
+
+
+
   LoginFormWrapper,
-  Wrapper,
-  ButtonsWrapper,
-  CloseButton,
+  Wrapper
 } from "../components/forms/loginFormStyles";
 import Modal from "../components/modal/Modal";
-import ModalOpenButton from "../components/modal/ModalOpenButton";
 import ModalContents from "../components/modal/ModalContents";
+import ModalOpenButton from "../components/modal/ModalOpenButton";
+import { Logo } from "../svg/logo";
+
 
 export const LoginFormContainer = () => {
   const [openModal, setOpenModal] = useState("none");
@@ -45,7 +42,7 @@ export const LoginFormContainer = () => {
               <Button variant="primary">Login</Button>
             </ModalOpenButton>
 
-            <ModalContents title="Login">
+            <ModalContents aria-label="Login form" title="Login">
               <LoginForm
                 takeFormData={login}
                 submitButton={
@@ -60,7 +57,7 @@ export const LoginFormContainer = () => {
             <ModalOpenButton>
               <Button variant="primary">Register</Button>
             </ModalOpenButton>
-            <ModalContents title="Register">
+            <ModalContents aria-label="Registration form" title="Register">
               <LoginForm
                 takeFormData={register}
                 submitButton={
