@@ -1,40 +1,44 @@
 import React, { useEffect, useState } from "react";
 import Tooltip from "@reach/tooltip";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { BookListUL, Input, Spinner } from "./SearchStyles";
 import { PlanetRow } from "./planet-row";
 import { nanoid } from "nanoid";
 import { client } from "./client";
+import * as colors from "../../styles/colors";
+import { useAsync } from "../hooks/useAsync";
+
 export const SearchComponent = () => {
-  const [data, setData] = useState(null);
-  const [status, setStatus] = useState("idle");
+  // const [data, setData] = useState(null);
+  // const [status, setStatus] = useState("idle");
+  const { data, error, run, isLoading, isError, isSuccess } = useAsync();
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [queried, setQueried] = useState(false);
-  const [error, setError] = useState("");
-  console.log("status", status);
-  // console.log(data);
+  // const [error, setError] = useState(null);
+  // console.log("status", status);
 
-  let isSuccess = status === "success";
-  let isLoading = status === "loading";
-  let isError = status === "error";
-  // console.log("error",error);
+  // let isSuccess = status === "success";
+  // let isLoading = status === "loading";
+  // let isError = status === "error";
   useEffect(() => {
     if (!queried) {
       return;
     }
-    setStatus("loading");
-    client(
-      `apod?start_date=${dateFrom}&end_date=${dateTo}&api_key=wruzha7a7vtmNdmKZekYem5yAzNF1vEcUKRF1I3u`
-    ).then((resData) => {
-      setData(resData);
-      setStatus("success");
-      if (resData.msg) {
-        setStatus("error");
-        setError(resData.msg);
-      }
-      console.log(resData);
-    });
+    // setStatus("loading");
+    run(
+      client(
+        `apod?start_date=${dateFrom}&end_date=${dateTo}&api_key=wruzha7a7vtmNdmKZekYem5yAzNF1vEcUKRF1I3u`
+      )
+    );
+    // .then((resData) => {
+    //   setData(resData);
+    //   setStatus("success");
+    //   if (resData.msg) {
+    //     setStatus("error");
+    //     setError(resData.msg);
+    //   }
+    // });
     setQueried(true);
   }, [dateFrom, dateTo]);
 
@@ -70,11 +74,17 @@ export const SearchComponent = () => {
             }}
             type="submit"
           >
-            {isLoading ? <Spinner /> : <FaSearch aria-label="search" />}
+            {isLoading ? (
+              <Spinner />
+            ) : isError ? (
+              <FaTimes aria-label="error" style={{ color: colors.danger }} />
+            ) : (
+              <FaSearch aria-label="search" />
+            )}
           </button>
         </Tooltip>
       </form>
-      {isError ? <pre style={{ color: "red" }}>{error}</pre> : null}
+      {isError ? <pre style={{ color: colors.danger }}>{error}</pre> : null}
       {isSuccess ? (
         data?.length ? (
           <BookListUL>
