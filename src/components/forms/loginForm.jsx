@@ -1,4 +1,5 @@
 import React from "react";
+import SearchComponent from "../search/SearchComponent";
 import { Button, FormGroup, Input, Spinner } from "./loginFormStyles";
 
 export function LoginForm({ takeFormData, submitButton }) {
@@ -22,10 +23,10 @@ export function LoginForm({ takeFormData, submitButton }) {
           <Input type="password" id="password" />
         </FormGroup>
         <div>
-          {React.cloneElement(submitButton, { type: "submit" })}{" "}
-          <Spinner  />
+          {React.cloneElement(submitButton, { type: "submit" })} <Spinner />
         </div>
       </form>
+      <SearchComponent />
     </div>
   );
 }
