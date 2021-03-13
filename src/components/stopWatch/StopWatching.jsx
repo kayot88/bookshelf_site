@@ -1,10 +1,34 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
 
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case "START_CLICK":
+      return {
+        ...state,
+        count: payload.now - payload.startTime,
+      };
+    case "SETLOOP":
+      return {
+        ...state,
+        isLoop: !state.isLoop,
+      };
+    case "CLEAR":
+      return {
+        ...state,
+        isLoop: false,
+        count: 0
+      };
 
+    default:
+      return state;
+  }
+};
 
 const StopWatching = () => {
-  const [isLoop, setLoop] = useState(false);
-  const [count, setCount] = useState(0);
+  const [{ isLoop, count }, dispatch] = useReducer(reducer, {
+    isLoop: false,
+    count: 0,
+  });
   const intervalRef = useRef();
   useEffect(() => {
     return () => {
@@ -17,19 +41,19 @@ const StopWatching = () => {
       clearInterval(intervalRef.current);
     } else {
       const startTime = Date.now() - count;
-      console.log("startTime", startTime);
       intervalRef.current = setInterval(() => {
-        console.log("startTime2", Date.now());
-        setCount(Date.now() - startTime);
+        dispatch({
+          type: "START_CLICK",
+          payload: { now: Date.now(), startTime },
+        });
       }, 0);
     }
-    setLoop(!isLoop);
+    dispatch({type: "SETLOOP"})
   }
 
   function handleClearClick() {
     clearInterval(intervalRef.current);
-    setCount(0);
-    setLoop(false);
+    dispatch({type:"CLEAR"})
   }
   return (
     <div
