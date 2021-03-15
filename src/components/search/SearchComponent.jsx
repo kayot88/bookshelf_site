@@ -1,45 +1,32 @@
-import React, { useEffect, useState } from "react";
 import Tooltip from "@reach/tooltip";
-import { FaSearch, FaTimes } from "react-icons/fa";
-import { BookListUL, Input, Logout, Spinner } from "./SearchStyles";
-import { PlanetRow } from "./planet-row";
 import { nanoid } from "nanoid";
-import { client } from "./client";
+import React, { useEffect, useState } from "react";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import * as colors from "../../styles/colors";
 import { useAsync } from "../hooks/useAsync";
-import StopWatching from "../stopWatch/StopWatching";
+import { client } from "./client";
+import { PlanetRow } from "./planet-row";
+import { BookListUL, Input, Spinner } from "./SearchStyles";
+
+
+
 
 export const SearchComponent = ({ user }) => {
-  // const [data, setData] = useState(null);
-  // const [status, setStatus] = useState("idle");
   const { data, error, run, isLoading, isError, isSuccess } = useAsync();
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [queried, setQueried] = useState(false);
-  // const [error, setError] = useState(null);
-  // console.log("status", status);
 
-  // let isSuccess = status === "success";
-  // let isLoading = status === "loading";
-  // let isError = status === "error";
   useEffect(() => {
     if (!queried) {
       return;
     }
-    // setStatus("loading");
     run(
       client(
         `apod?start_date=${dateFrom}&end_date=${dateTo}&api_key=wruzha7a7vtmNdmKZekYem5yAzNF1vEcUKRF1I3u`
       )
     );
-    // .then((resData) => {
-    //   setData(resData);
-    //   setStatus("success");
-    //   if (resData.msg) {
-    //     setStatus("error");
-    //     setError(resData.msg);
-    //   }
-    // });
+
     setQueried(true);
   }, [dateFrom, dateTo]);
 
@@ -59,7 +46,6 @@ export const SearchComponent = ({ user }) => {
         padding: "40px 0",
       }}
     >
-      {/* <Logout onClick={clickLogoutHandler}>Logout</Logout> */}
       <form onSubmit={handleSubmit}>
         <label htmlFor="searchFrom">Enter date from</label>
         <Input placeholder="dATE FROM YYYY-MM-DD" id="searchFrom" type="text" />
@@ -100,7 +86,6 @@ export const SearchComponent = ({ user }) => {
           <p>No missions found. Try another search.</p>
         )
       ) : null}
-      <StopWatching />
     </div>
   );
 };
