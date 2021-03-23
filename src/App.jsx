@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useReducer,
+  useRef,
   useState,
 } from "react";
 import "./bootstrap-reboot.css";
@@ -51,30 +52,52 @@ const asyncReducer = (state, action) => {
   }
 };
 
+const useSafeDispatch = (dispatch) => {
+  const mountedRef = useRef(false);
+
+  useLayoutEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false; 
+    };
+  }, [dispatch]);
+
+  return useCallback(
+    (...args) => {
+      if (mountedRef) {
+        return dispatch(...args);
+      }
+    },
+    [dispatch]
+  );
+};
+
 const useAsync = (initialState) => {
-  const [state, dispatch] = useReducer(asyncReducer, {
+  const [state, unsafeDispatch] = useReducer(asyncReducer, {
     status: "idle",
     error: null,
     data: null,
     ...initialState,
   });
-
-  const run = useCallback((promise) => {
-    if (!promise) {
-      return;
-    }
-    dispatch({ type: "pending" });
-    promise.then(
-      (data) => dispatch({ type: "resolved", data }),
-      (error) => dispatch({ type: "rejected", error })
-    );
-  }, []);
+  const dispatch = useSafeDispatch(unsafeDispatch);
+  const run = useCallback(
+    (promise) => {
+      if (!promise) {
+        return;
+      }
+      dispatch({ type: "pending" });
+      promise.then(
+        (data) => dispatch({ type: "resolved", data }),
+        (error) => dispatch({ type: "rejected", error })
+      );
+    },
+    [dispatch]
+  );
 
   return { ...state, run };
 };
 
 const PokemonInfo = ({ name, handleSubmit }) => {
-
   const state = useAsync({ status: name ? "pending" : "idle" });
   const { data: pokemon, status, error, run } = state;
 
