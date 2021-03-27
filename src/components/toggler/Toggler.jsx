@@ -18,6 +18,7 @@ const togglerReducer = (state, action) => {
   }
 };
 
+
 const togglerTypes = {
   toggle: "TOGGLE",
   on: "ON",
