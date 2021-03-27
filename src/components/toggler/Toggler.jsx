@@ -15,7 +15,6 @@ const togglerReducer = (state, action) => {
 
     default:
       throw new Error(`no such action ${action.type} found `);
-    // return state
   }
 };
 
@@ -47,22 +46,18 @@ function useToggle({ reducer = togglerReducer } = {}) {
 const Toggler = ({ ...props }) => {
   const [manyClick, setManyClick] = useState(0);
   const tooManyClicks = manyClick >= 4;
-  // console.log("tooManyClicks", tooManyClicks);
 
   const  { on, clickOn, clickOff, toggle } = useToggle({
     reducer(currentState, action) {
       console.log("currentState", currentState.on);
       const changes = togglerReducer(currentState, action);
       if (tooManyClicks && action.type === togglerTypes.toggle) {
-        // other changes are fine, but on needs to be unchanged
         return { ...changes, on: currentState.on };
       } else {
-        // the changes are fine
         return changes;
       }
     },
   });
-  // console.log("what?",({ on } = useToggle()));
 
   return (
     <div>
