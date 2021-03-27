@@ -49,7 +49,7 @@ const Toggler = ({ ...props }) => {
   const tooManyClicks = manyClick >= 4;
   // console.log("tooManyClicks", tooManyClicks);
 
-  let { on, clickOn, clickOff, toggle } = useToggle({
+  const  { on, clickOn, clickOff, toggle } = useToggle({
     reducer(currentState, action) {
       console.log("currentState", currentState.on);
       const changes = togglerReducer(currentState, action);
@@ -62,8 +62,7 @@ const Toggler = ({ ...props }) => {
       }
     },
   });
-  // let { on } = useToggle();
-  console.log(({ on } = useToggle()));
+  // console.log("what?",({ on } = useToggle()));
 
   return (
     <div>
