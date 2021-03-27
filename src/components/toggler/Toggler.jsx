@@ -1,23 +1,44 @@
 import * as React from "react";
-import { useToggle } from "./hooks/useToggler";
+import { useToggle, actionsTypes, toggleReducer } from "./hooks/useToggler";
 import { Switch } from "./index";
 
 function Toggler() {
-  // const [toMuchClick, setMuchClick] = useState(0)
+  const [toMuchClick, setMuchClick] = React.useState(0);
+  const maxClicks = toMuchClick >= 4;
 
-  const { on, getTogglerProps } = useToggle();
+  function currentStateReducer(currentState, action) {
+    if (action.type === "TOGGLE" && maxClicks) {
+      return { on: currentState.on };
+    }
+    return toggleReducer(currentState, action);
+  }
+
+  const { on, getTogglerProps, getReseterProps } = useToggle({reducer: currentStateReducer});
   return (
     <div>
-      <Switch {...getTogglerProps({ on })} />
-      <hr />
-      <button
+      <Switch
         {...getTogglerProps({
-          "aria-label": "custom-button",
-          onClick: () => console.info("onButtonClick"),
-          id: "custom-button-id",
+          disabled: maxClicks,
+          on: on,
+          onClick: () => setMuchClick((count) => count + 1),
+        })}
+      />
+      <hr />
+      {maxClicks ? (
+        <div data-testid="notice">
+          Whoa, you clicked too much!
+          <br />
+        </div>
+      ) : toMuchClick > 0 ? (
+        <div>Click count: {toMuchClick}</div>
+      ) : null}
+
+      <button
+        {...getReseterProps({
+          onClick: () => setMuchClick(0),
         })}
       >
-        {on ? "on" : "off"}
+        RESET
       </button>
     </div>
   );
