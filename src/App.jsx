@@ -1,33 +1,25 @@
 import React, {
   useCallback,
-  useContext,
+  useLayoutEffect,
   useEffect,
   useReducer,
   useRef,
   useState,
 } from "react";
 import "./bootstrap-reboot.css";
-import { Counter } from "./components/counter/counter";
+import  './app.css';
+// import { Counter } from "./components/counter/counter";
 import { useIdle } from "./components/hooks/useIdle";
 import AuthenticatedApp from "./containers/AuthenticatedApp";
-import UnAuthenticatedApp from "./containers/UnAuthenticatedApp";
-
-import { useHookLocalStorage } from "./utils/auth";
-import { fetchPokemon2 } from "./utils/pokemonUtils/fetchPokemon";
-import { FireContext } from "./utils/fireContext";
-import {
-  PokemonInfoFallback,
-  PokemonForm,
-  PokemonDataView,
-  fetchPokemon,
-  PokemonErrorBoundary,
-} from "./pokemon";
 import PokemonContainer from "./containers/PokemonContainer";
+import UnAuthenticatedApp from "./containers/UnAuthenticatedApp";
+import { useHookLocalStorage } from "./utils/auth";
 import { WrapperErrorBoundary } from "./utils/ErrorBoundary";
 import { Fallback } from "./utils/pokemonUtils/Fallback";
-
+import { fetchPokemon2 } from "./utils/pokemonUtils/fetchPokemon";
+// import "./styles/toggler.css";
+import { Toggler } from "./components/toggler";
 let content;
-
 const asyncReducer = (state, action) => {
   switch (action.type) {
     case "pending": {
@@ -58,7 +50,7 @@ const useSafeDispatch = (dispatch) => {
   useLayoutEffect(() => {
     mountedRef.current = true;
     return () => {
-      mountedRef.current = false; 
+      mountedRef.current = false;
     };
   }, [dispatch]);
 
@@ -122,6 +114,111 @@ const PokemonInfo = ({ name, handleSubmit }) => {
   throw new Error("This should be impossible");
 };
 
+/* Toggler */
+const noop = () => {};
+
+function Switch({
+  on,
+  className = "",
+  "aria-label": ariaLabel,
+  onClick,
+  ...props
+}) {
+  const btnClassName = [
+    className,
+    "toggle-btn",
+    on ? "toggle-btn-on" : "toggle-btn-off",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  return (
+    <label aria-label={ariaLabel || "Toggle"} style={{ display: "block" }}>
+      <input
+        className="toggle-input"
+        type="checkbox"
+        checked={on}
+        onChange={noop}
+        onClick={onClick}
+        data-testid="toggle-input"
+      />
+      <span className={btnClassName} {...props} />
+    </label>
+  );
+}
+
+const actionTypes = {
+  toggle: "TOGGLE",
+  on: "ON",
+  off: "OFF",
+};
+
+function toggleReducer(state, action) {
+  switch (action.type) {
+    case actionTypes.toggle: {
+      return { on: !state.on };
+    }
+    case actionTypes.on: {
+      return { ...state, on: true };
+    }
+    case actionTypes.off: {
+      return { ...state, on: false };
+    }
+    default: {
+      throw new Error(`Unhandled type: ${action.type}`);
+    }
+  }
+}
+
+function useToggle({ reducer = toggleReducer } = {}) {
+  const [{ on }, dispatch] = React.useReducer(reducer, { on: false });
+
+  const toggle = () => dispatch({ type: actionTypes.toggle });
+  const setOn = () => dispatch({ type: actionTypes.on });
+  const setOff = () => dispatch({ type: actionTypes.off });
+
+  return { on, toggle, setOn, setOff };
+}
+
+// export {useToggle, toggleReducer, actionTypes}
+
+// import {useToggle, toggleReducer, actionTypes}
+function Toggle() {
+  const [clicksSinceReset, setClicksSinceReset] = React.useState(0);
+  const tooManyClicks = clicksSinceReset >= 4;
+
+  const { on, toggle, setOn, setOff } = useToggle({
+    reducer(currentState, action) {
+      const changes = toggleReducer(currentState, action);
+      if (tooManyClicks && action.type === actionTypes.toggle) {
+        // other changes are fine, but on needs to be unchanged
+        return { ...changes, on: currentState.on };
+      } else {
+        // the changes are fine
+        return changes;
+      }
+    },
+  });
+
+  return (
+    <div>
+      <button onClick={setOff}>Switch Off</button>
+      <button onClick={setOn}>Switch On</button>
+      <Switch
+        onClick={() => {
+          toggle();
+          setClicksSinceReset((count) => count + 1);
+        }}
+        on={on}
+      />
+      {tooManyClicks ? (
+        <button onClick={() => setClicksSinceReset(0)}>Reset</button>
+      ) : null}
+    </div>
+  );
+}
+
+/* Toggler */
+
 const App = () => {
   const [pokemonName, setPokemonName] = React.useState("mew");
 
@@ -147,9 +244,14 @@ const App = () => {
       {isIdle ? "Are you still there?" : "Hello there"}
       {user ? <AuthenticatedApp user={user} /> : <UnAuthenticatedApp />}
       {/* <Counter /> */}
+      <Toggler />
       <WrapperErrorBoundary onReset={handleReset} resetKeys={[pokemonName]}>
         <PokemonInfo name={pokemonName} handleSubmit={handleSubmit} />
       </WrapperErrorBoundary>
+      <div>
+        <div class="a b c"></div>
+      </div>
+      {/* <Toggle /> */}
     </div>
   );
 };
