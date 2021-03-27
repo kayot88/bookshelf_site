@@ -1,86 +1,31 @@
-import React, { useReducer, useState } from "react";
-import { Switch } from ".";
+import * as React from "react";
+import { Switch } from "./index";
 
-const togglerReducer = (state, action) => {
-  switch (action.type) {
-    case togglerTypes.toggle: {
-      return { ...state, on: !state.on };
-    }
-    case togglerTypes.on: {
-      return { ...state, on: true };
-    }
-    case togglerTypes.off: {
-      return { ...state, on: false };
-    }
-
-    default:
-      throw new Error(`no such action ${action.type} found `);
-    // return state
-  }
-};
-
-const togglerTypes = {
-  toggle: "TOGGLE",
-  on: "ON",
-  off: "OFF",
-};
-
-function useToggle({ reducer = togglerReducer } = {}) {
-  const [state, dispatch] = useReducer(reducer, {
-    on: false,
-  });
-  const { on } = state;
-  const toggle = () => {
-    return dispatch({ type: togglerTypes.toggle });
-  };
-  const clickOn = () => dispatch({ type: togglerTypes.on });
-  const clickOff = () => dispatch({ type: togglerTypes.off });
+function useToggle() {
+  const [on, setOn] = React.useState(false);
+  const toggle = () => setOn(!on);
 
   return {
     on,
-    clickOn,
-    clickOff,
     toggle,
+    togglerProps: {
+      "aria-pressed": on,
+      onClick: toggle,
+    },
   };
 }
 
-const Toggler = ({ ...props }) => {
-  const [manyClick, setManyClick] = useState(0);
-  const tooManyClicks = manyClick >= 4;
-  // console.log("tooManyClicks", tooManyClicks);
-
-  const  { on, clickOn, clickOff, toggle } = useToggle({
-    reducer(currentState, action) {
-      console.log("currentState", currentState.on);
-      const changes = togglerReducer(currentState, action);
-      if (tooManyClicks && action.type === togglerTypes.toggle) {
-        // other changes are fine, but on needs to be unchanged
-        return { ...changes, on: currentState.on };
-      } else {
-        // the changes are fine
-        return changes;
-      }
-    },
-  });
-  // console.log("what?",({ on } = useToggle()));
-
+function App() {
+  const { on, togglerProps } = useToggle();
   return (
     <div>
-      <button onClick={() => clickOff()}>SwitchOff</button>
-      <button onClick={() => clickOn()}>SwitchOn</button>
-      <Switch
-        on={on}
-        onClick={() => {
-          toggle();
-          setManyClick((count) => count + 1);
-        }}
-        {...props}
-      />
-      {tooManyClicks ? (
-        <button onClick={() => setManyClick(0)}>Reset</button>
-      ) : null}
+      <Switch on={on} {...togglerProps} />
+      <hr />
+      <button aria-label="custom-button" {...togglerProps}>
+        {on ? "on" : "off"}
+      </button>
     </div>
   );
-};
+}
 
-export default Toggler;
+export default App;
