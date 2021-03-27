@@ -3,6 +3,8 @@ import { useToggle } from "./hooks/useToggler";
 import { Switch } from "./index";
 
 function Toggler() {
+  // const [toMuchClick, setMuchClick] = useState(0)
+
   const { on, getTogglerProps } = useToggle();
   return (
     <div>
