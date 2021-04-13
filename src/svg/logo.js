@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import moduleName from '../components/counter/counter.jsx'
 const Logo = ({width = '50', height = '50'}) => {
   return (
     <svg

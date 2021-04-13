@@ -1,3 +1,5 @@
+import React, { PureComponent } from 'react'
+
 import { ErrorBoundary } from "react-error-boundary";
 
 function ErrorFallback({ error, resetErrorBoundary }) {

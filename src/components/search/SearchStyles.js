@@ -1,3 +1,4 @@
+import React from 'react';
 import styled, { keyframes } from "styled-components/macro";
 import { Dialog as ReachDialog } from "@reach/dialog";
 import * as colors from "../../styles/colors";

@@ -8,14 +8,20 @@ import { client } from "./client";
 import { PlanetRow } from "./planet-row";
 import { BookListUL, Input, Spinner } from "./SearchStyles";
 
-
-
-
 export const SearchComponent = ({ user }) => {
   const { data, error, run, isLoading, isError, isSuccess } = useAsync();
+  const handleChange1 = (e) => {
+    setDataState1(e.target.value);
+  };
+  const handleChange2 = (e) => {
+    setDataState2(e.target.value);
+  };
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [dataState1, setDataState1] = useState("");
+  const [dataState2, setDataState2] = useState("");
   const [queried, setQueried] = useState(false);
+  console.table([dataState1, dataState2]);
 
   useEffect(() => {
     if (!queried) {
@@ -26,7 +32,6 @@ export const SearchComponent = ({ user }) => {
         `apod?start_date=${dateFrom}&end_date=${dateTo}&api_key=wruzha7a7vtmNdmKZekYem5yAzNF1vEcUKRF1I3u`
       )
     );
-
     setQueried(true);
   }, [dateFrom, dateTo]);
 
@@ -48,10 +53,22 @@ export const SearchComponent = ({ user }) => {
     >
       <form onSubmit={handleSubmit}>
         <label htmlFor="searchFrom">Enter date from</label>
-        <Input placeholder="dATE FROM YYYY-MM-DD" id="searchFrom" type="text" />
+        <Input
+          placeholder="2020-01-10"
+          id="searchFrom"
+          value="2020-01-10"
+          type="text"
+          onChange={handleChange1}
+        />
 
         <label htmlFor="searchTo">Enter date to</label>
-        <Input placeholder="dATE TO YYYY-MM-DD" id="searchTo" type="text" />
+        <Input
+          placeholder="2020-01-20"
+          id="searchTo"
+          type="text"
+          value="2020-01-20"
+          onChange={handleChange2}
+        />
         <Tooltip label="Search planets">
           <button
             style={{
@@ -78,7 +95,10 @@ export const SearchComponent = ({ user }) => {
           <BookListUL>
             {data.map((photo) => (
               <li key={nanoid()} aria-label={photo.title}>
-                <PlanetRow key={nanoid()} photo={photo} />
+                <PlanetRow
+                  key={nanoid()}
+                  photo={{ ...photo, planetId: nanoid() }}
+                />
               </li>
             ))}
           </BookListUL>

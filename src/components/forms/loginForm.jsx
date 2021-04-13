@@ -1,8 +1,12 @@
 import React from "react";
-import SearchComponent from "../search/SearchComponent";
-import { Button, FormGroup, Input, Spinner } from "./loginFormStyles";
+import { useAsync } from "../hooks/useAsync";
+import { FormGroup, Input } from "./loginFormStyles";
 
 export function LoginForm({ takeFormData, submitButton }) {
+  const isLoading = false;
+  const isSuccess = false;
+  // const { firebase } = useContext(FirebaseContext);
+  // const user = firebase.auth().currentUser || {};
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = e.target.elements;
@@ -22,11 +26,9 @@ export function LoginForm({ takeFormData, submitButton }) {
           <label htmlFor="password">Password</label>
           <Input type="password" id="password" />
         </FormGroup>
-        <div>
-          {React.cloneElement(submitButton, { type: "submit" })} <Spinner />
-        </div>
+        <div>{React.cloneElement(submitButton, { type: "submit" })}</div>
       </form>
-      <SearchComponent />
+      {/* <SearchComponent /> */}
     </div>
   );
 }

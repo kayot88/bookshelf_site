@@ -1,6 +1,7 @@
 {
   "name": "bookshelf-self",
   "version": "0.1.0",
+  "homepage": "https://exercises-04-authentication.bookshelf.lol/",
   "private": true,
   "dependencies": {
     "@emotion/core": "^11.0.0",
@@ -16,21 +17,25 @@
     "dotenv": "^8.2.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "firebase": "^8.3.0",
+    "msw": "^0.28.0",
     "nanoid": "^3.1.20",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-error-boundary": "^3.1.1",
     "react-icons": "^4.2.0",
     "react-player": "^2.9.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "serve": "^11.3.2",
     "styled-components": "^5.2.1",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build --profile",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "serve --no-clipboard --single --listen 5000 build"
   },
   "eslintConfig": {
     "extends": [

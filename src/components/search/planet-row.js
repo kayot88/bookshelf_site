@@ -1,11 +1,14 @@
-import React from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom";
 import ReactPlayer from "react-player";
 import * as mq from "../../styles/media-queries";
 import * as colors from "../../styles/colors";
+import { Link } from "react-router-dom";
 
-function PlanetRow({ photo }) {
-  const { title, url, hdurl, explanation, media_type } = photo;
+function PlanetRow({ photo}) {
+  const { title, url, hdurl, explanation, media_type, planetId } = photo;
+  const planetContext = createContext(photo);
+  console.log(photo);
 
   const id = `planet-row-planet-${photo.url}`;
 
@@ -18,7 +21,8 @@ function PlanetRow({ photo }) {
         position: "relative",
       }}
     >
-      <div
+      <Link
+        to={`/planet/${planetId}`}
         aria-labelledby={id}
         style={{
           minHeight: 270,
@@ -51,11 +55,9 @@ function PlanetRow({ photo }) {
             <img
               src={url}
               alt={`planet cover`}
-              
-              style={{ maxHeight: "100%", objectFit:"contain", width: "100%" }}
+              style={{ maxHeight: "100%", objectFit: "contain", width: "100%" }}
             />
           ) : (
-            // ReactDOM.createPortal(
             <div>
               <ReactPlayer
                 url={url}
@@ -66,8 +68,6 @@ function PlanetRow({ photo }) {
                 }}
               />
             </div>
-            // document.body
-            // )
           )}
         </div>
         <div style={{ flex: 1 }}>
@@ -100,11 +100,10 @@ function PlanetRow({ photo }) {
               >
                 {explanation}
               </div>
-              {/* <small>{}</small> */}
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

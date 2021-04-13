@@ -14,17 +14,28 @@ import { login } from "../utils/auth";
 import { FireContext } from "../utils/fireContext";
 
 export const LoginFormContainer = () => {
-  // const [openModal, setOpenModal] = useState("none");
   const { firebase } = useContext(FireContext);
+
 
   const login = ({ email, password }) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((res) => {
-        localStorage.setItem("authUser", JSON.stringify(res.user));
+      .then(function (user) {
+        user.getToken().then(function (token) {
+          localStorage.setItem("savedToken", token); // store the token
+        });
       })
-      .catch((error) => console.log("error.message: ", error.message));
+      .catch(function (error) {
+        // handle error...
+      });
+    // firebase
+    //   .auth()
+    //   .signInWithEmailAndPassword(email, password)
+    //   .then((res) => {
+    //     localStorage.setItem("authUser", JSON.stringify(res.user));
+    //   })
+    //   .catch((error) => console.log("error.message: ", error.message));
   };
   const register = ({ email, password }) => {
     firebase

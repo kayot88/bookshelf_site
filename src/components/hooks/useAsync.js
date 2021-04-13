@@ -27,8 +27,14 @@ const useAsync = (initState) => {
 
   const safeSetState = useSafeDispatch(setState);
 
-  const setData = (data) => safeSetState({ data, status: "resolved" });
-  const setError = (error) => safeSetState({ error, status: "rejected" });
+  const setData = useCallback(
+    (data) => safeSetState({ data, status: "resolved" }),
+    [safeSetState]
+  );
+  const setError = useCallback(
+    (error) => safeSetState({ error, status: "rejected" }),
+    [safeSetState]
+  );
   const reset = () => safeSetState(refInitialStates.current);
 
   const run = useCallback(
