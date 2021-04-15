@@ -1,0 +1,16 @@
+[data-reach-tooltip] {
+  background: rgba(0, 0, 0, 0.6);
+  border: 0;
+  border-radius: 3px;
+  box-shadow: none;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 8px;
+}
+.center {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

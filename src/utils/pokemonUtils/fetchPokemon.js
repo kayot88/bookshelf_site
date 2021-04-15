@@ -5,7 +5,7 @@ const formatDate = (date) =>
   `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
 
 export function fetchPokemon2(name, delay = 1500) {
-  console.log("name", name);
+  // console.log("name", name);
    const pokemonQuery = `
     query PokemonInfo($name: String) {
       pokemon(name: $name) {
@@ -38,7 +38,7 @@ export function fetchPokemon2(name, delay = 1500) {
      })
     .then(async (response) => {
       const { data } = await response.json();
-      console.log("data", data);
+      // console.log("data", data);
       if (response.ok) {
         const { pokemon } = data || null;
         if (pokemon) {

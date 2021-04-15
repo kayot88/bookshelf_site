@@ -50,7 +50,7 @@ const Toggler = ({ ...props }) => {
 
   const  { on, clickOn, clickOff, toggle } = useToggle({
     reducer(currentState, action) {
-      console.log("currentState", currentState.on);
+      // console.log("currentState", currentState.on);
       const changes = togglerReducer(currentState, action);
       if (tooManyClicks && action.type === togglerTypes.toggle) {
         return { ...changes, on: currentState.on };

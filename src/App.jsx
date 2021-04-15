@@ -10,7 +10,7 @@ import { FireContext } from "./utils/fireContext";
 
 const App = () => {
   const { firebase } = useContext(FireContext);
-  console.log("firebase", firebase);
+  // console.log("firebase", firebase);
   const getUser = async () => {
     const user = (await firebase.auth().currentUser) || {};
 

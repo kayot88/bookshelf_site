@@ -1,14 +1,15 @@
-import React, { createContext } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 import ReactPlayer from "react-player";
-import * as mq from "../../styles/media-queries";
-import * as colors from "../../styles/colors";
 import { Link } from "react-router-dom";
+import * as colors from "../../styles/colors";
+import * as mq from "../../styles/media-queries";
+import { Rating } from "../rating/Rating";
+import { StatusButton } from "../statusButton/StatusButton";
 
 function PlanetRow({ photo}) {
-  const { title, url, hdurl, explanation, media_type, planetId } = photo;
-  const planetContext = createContext(photo);
-  console.log(photo);
+  const { title, url, explanation, media_type, planetId } = photo;
+  // const planetContext = createContext(photo);
+  // console.log(photo);
 
   const id = `planet-row-planet-${photo.url}`;
 
@@ -41,6 +42,8 @@ function PlanetRow({ photo}) {
           },
         }}
       >
+        <Rating />
+        <StatusButton />
         <div
           style={{
             width: "340px",
@@ -109,3 +112,4 @@ function PlanetRow({ photo}) {
 }
 
 export { PlanetRow };
+

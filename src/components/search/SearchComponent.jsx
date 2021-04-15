@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import * as colors from "../../styles/colors";
 import { useAsync } from "../hooks/useAsync";
+import "../tooltip/styles/tooltip.css";
 import { client } from "./client";
 import { PlanetRow } from "./planet-row";
 import { BookListUL, Input, Spinner } from "./SearchStyles";
@@ -63,13 +64,13 @@ export const SearchComponent = ({ user }) => {
 
         <label htmlFor="searchTo">Enter date to</label>
         <Input
-          placeholder="2020-01-20"
+          placeholder="2020-01-10"
           id="searchTo"
           type="text"
-          value="2020-01-20"
+          value="2020-01-10"
           onChange={handleChange2}
         />
-        <Tooltip label="Search planets">
+        <Tooltip label="Search_planets" className="center">
           <button
             style={{
               border: "0",
@@ -78,6 +79,7 @@ export const SearchComponent = ({ user }) => {
               background: "transparent",
             }}
             type="submit"
+            aria-label="Search_planets"
           >
             {isLoading ? (
               <Spinner style={{ left: "-15px" }} />
