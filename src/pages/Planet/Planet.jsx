@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { useAsync } from "src/components/hooks/useAsync";
 import { StatusButton } from "src/components/statusButton/StatusButton";
@@ -12,12 +13,20 @@ const loadingPlanet = {
   planetId: "loading planetId",
 };
 
-const Planet = () => {
-  const { data, run } = useAsync();
+
+ const Planet = () => {
+  const { data, run, isLoading } = useAsync();
   const { planetId } = useParams();
   const listItem = null;
+  useEffect(() => {
+    run(
+      axios.get(
+        "http://www.json-generator.com/api/json/get/ceRuVmAcZe?indent=2"
+      )
+    );
+  }, [run]);
 
-  const planet = data?.planet ?? loadingPlanet;
+  const planet = data?.data[0] ?? loadingPlanet;
   const { title, url, explanation } = planet;
 
   return (
@@ -62,7 +71,7 @@ const Planet = () => {
             >
               {explanation}
             </div>
-            {planet.loadingPlanet ? null : <StatusButton />}
+            {isLoading ? null : <StatusButton />}
           </div>
         </div>
       </div>

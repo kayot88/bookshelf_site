@@ -22,7 +22,6 @@ export const SearchComponent = ({ user }) => {
   const [dataState1, setDataState1] = useState("");
   const [dataState2, setDataState2] = useState("");
   const [queried, setQueried] = useState(false);
-  console.table([dataState1, dataState2]);
 
   useEffect(() => {
     if (!queried) {

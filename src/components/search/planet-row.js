@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactPlayer from "react-player";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import * as colors from "../../styles/colors";
 import * as mq from "../../styles/media-queries";
+import { useAsync } from "../hooks/useAsync";
 import { Rating } from "../rating/Rating";
 import { StatusButton } from "../statusButton/StatusButton";
 
-function PlanetRow({ photo}) {
+function PlanetRow({ photo }) {
   const { title, url, explanation, media_type, planetId } = photo;
-  // const planetContext = createContext(photo);
-  // console.log(photo);
-
   const id = `planet-row-planet-${photo.url}`;
 
   return (
@@ -112,4 +111,3 @@ function PlanetRow({ photo}) {
 }
 
 export { PlanetRow };
-

@@ -8,6 +8,7 @@ import NotFound from "../pages/404";
 import { Planet } from "../pages/Planet/Planet";
 import * as colors from "../styles/colors";
 import { ErrorBoundary } from "src/utils/lib";
+import { WrapperErrorBoundary } from "src/utils/ErrorBoundary";
 
 const AuthenticatedApp = ({ user }) => {
   return (
@@ -18,9 +19,9 @@ const AuthenticatedApp = ({ user }) => {
       }}
     >
       <Nav />
-      <ErrorBoundary>
+      <WrapperErrorBoundary>
         <AppRoutes user={user} />
-      </ErrorBoundary>
+      </WrapperErrorBoundary>
     </div>
   );
 };
