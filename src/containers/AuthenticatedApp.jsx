@@ -9,20 +9,23 @@ import { Planet } from "../pages/Planet/Planet";
 import * as colors from "../styles/colors";
 import { ErrorBoundary } from "src/utils/lib";
 import { WrapperErrorBoundary } from "src/utils/ErrorBoundary";
+import { FullPageErrorFallback } from "src/pages/Planet/styles/ErrorsFallbacks/FullPageErrorFallback";
 
 const AuthenticatedApp = ({ user }) => {
   return (
-    <div
-      css={{
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <Nav />
-      <WrapperErrorBoundary>
-        <AppRoutes user={user} />
-      </WrapperErrorBoundary>
-    </div>
+    <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
+      <div
+        css={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Nav />
+        <WrapperErrorBoundary>
+          <AppRoutes user={user} />
+        </WrapperErrorBoundary>
+      </div>
+    </ErrorBoundary>
   );
 };
 
