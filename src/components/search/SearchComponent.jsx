@@ -7,7 +7,7 @@ import { useAsync } from "../hooks/useAsync";
 import "../tooltip/styles/tooltip.css";
 import { client } from "./client";
 import { PlanetRow } from "./planet-row";
-import { BookListUL, Input, Spinner } from "./SearchStyles";
+import { PlanetsListUL, Input, Spinner } from "./SearchStyles";
 
 export const SearchComponent = ({ user }) => {
   const { data, error, run, isLoading, isError, isSuccess } = useAsync();
@@ -93,7 +93,8 @@ export const SearchComponent = ({ user }) => {
       {isError ? <pre style={{ color: colors.danger }}>{error}</pre> : null}
       {isSuccess ? (
         data?.length ? (
-          <BookListUL>
+          <PlanetsListUL>
+            ;
             {data.map((photo) => (
               <li key={nanoid()} aria-label={photo.title}>
                 <PlanetRow
@@ -102,7 +103,7 @@ export const SearchComponent = ({ user }) => {
                 />
               </li>
             ))}
-          </BookListUL>
+          </PlanetsListUL>
         ) : (
           <p>No missions found. Try another search.</p>
         )

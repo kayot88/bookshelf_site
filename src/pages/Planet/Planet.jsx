@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
-import { useAsync } from "src/components/hooks/useAsync";
-import { StatusButton } from "src/components/statusButton/StatusButton";
+import { useAsync } from "../../components/hooks/useAsync";
+import { StatusButton } from "../../components/statusButton/StatusButton";
 import bookPlaceholderSvg from "../../assets/book-placeholder.svg";
 import * as mq from "../../styles/media-queries";
 
@@ -13,8 +13,7 @@ const loadingPlanet = {
   planetId: "loading planetId",
 };
 
-
- const Planet = () => {
+const Planet = () => {
   const { data, run, isLoading } = useAsync();
   const { planetId } = useParams();
   const listItem = null;

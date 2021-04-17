@@ -8,6 +8,10 @@ import {AuthenticatedApp} from "./containers/AuthenticatedApp";
 import UnAuthenticatedApp from "./containers/UnAuthenticatedApp";
 import { FireContext } from "./utils/fireContext";
 
+
+
+
+
 const App = () => {
   const { firebase } = useContext(FireContext);
   // console.log("firebase", firebase);

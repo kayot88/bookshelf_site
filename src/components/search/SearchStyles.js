@@ -51,7 +51,7 @@ export const Input = styled.input`
   width: 100%;
 `;
 
-export const BookListUL = styled.ul`
+export const PlanetsListUL = styled.ul`
   list-style: none;
   padding: 0;
   display: grid;

@@ -1,15 +1,15 @@
 import React from "react";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
-import { ListPlanets } from "src/components/listPlanets/ListPlanets";
+import { ListPlanets } from "../components/listPlanets/ListPlanets";
 import styled from "styled-components/macro";
-import { Home } from "src/pages/Home";
+import { Home } from "../pages/Home";
 import SearchComponent from "../components/search/SearchComponent";
 import NotFound from "../pages/404";
 import { Planet } from "../pages/Planet/Planet";
 import * as colors from "../styles/colors";
-import { ErrorBoundary } from "src/utils/lib";
-import { WrapperErrorBoundary } from "src/utils/ErrorBoundary";
-import { FullPageErrorFallback } from "src/pages/Planet/styles/ErrorsFallbacks/FullPageErrorFallback";
+import { ErrorBoundary } from "../utils/lib";
+import { WrapperErrorBoundary } from "../utils/ErrorBoundary";
+import { FullPageErrorFallback } from "../pages/Planet/styles/ErrorsFallbacks/FullPageErrorFallback";
 
 const AuthenticatedApp = ({ user }) => {
   return (
